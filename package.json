@@ -1,0 +1,22 @@
+{
+  "name": "tree-sitter-ekscript",
+  "version": "0.0.1",
+  "description": "EkScript grammar for tree-sitter",
+  "main": "grammar.js",
+  "scripts": {
+    "test": "pnpm test-ekscript && pnpm test-tsx && pnpm test-load && scripts/parse-examples"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/ekscript/tree-sitter-ekscript"
+  },
+  "keywords": [
+    "ekscript",
+    "tree-sitter",
+    "parser",
+    "grammar",
+    "highlihgt"
+  ],
+  "author": "Himujjal",
+  "license": "MIT"
+}
