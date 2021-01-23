@@ -4,19 +4,29 @@
   "description": "EkScript grammar for tree-sitter",
   "main": "grammar.js",
   "scripts": {
-    "test": "pnpm test-ekscript && pnpm test-tsx && pnpm test-load && scripts/parse-examples"
+    "build": "tree-sitter generate",
+    "test": "npm run test-ekscript  && node script/parse-examples.js",
+    "test-ekscript": "tree-sitter test",
+    "start": "nodemon --watch grammar.js --watch corpus/**/*.txt -e js,txt --exec \"npm run build && npm run test\""
   },
   "repository": {
     "type": "git",
-    "url": "github.com/ekscript/tree-sitter-ekscript"
+    "url": "https://github.com/ekscript/tree-sitter-ekscript"
   },
   "keywords": [
     "ekscript",
     "tree-sitter",
     "parser",
     "grammar",
-    "highlihgt"
+    "highlight"
   ],
   "author": "Himujjal",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.14.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7",
+    "tree-sitter-cli": "^0.18.0"
+  }
 }
