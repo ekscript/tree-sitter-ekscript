@@ -1,3 +1,5 @@
+/// <reference types="tree-sitter-cli/dsl" />
+
 const PREC = {
   COMMENT: 1, // Prefer comments over regexes
   STRING: 2, // In a string, prefer string characters over comments

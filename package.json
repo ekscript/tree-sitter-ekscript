@@ -2,7 +2,7 @@
   "name": "tree-sitter-ekscript",
   "version": "0.2.0",
   "description": "EkScript grammar for tree-sitter",
-  "main": "grammar.js",
+  "main": "index.js",
   "scripts": {
     "build": "tree-sitter generate",
     "test": "tree-sitter test",
