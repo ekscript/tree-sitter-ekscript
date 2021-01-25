@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-ekscript",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "EkScript grammar for tree-sitter",
   "main": "grammar.js",
   "scripts": {
