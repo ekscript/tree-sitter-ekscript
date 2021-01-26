@@ -7,7 +7,8 @@
     "gen": "tree-sitter generate",
     "test": "tree-sitter test",
     "dev": "nodemon --watch grammar.js --watch corpus/**/*.txt -e js,txt --exec \"npm run build && npm run test\"",
-    "build": "node-gyp configure && node-gyp build"
+    "build": "node-gyp configure && node-gyp build",
+    "publish": "np --no-tests patch"
   },
   "repository": {
     "type": "git",
