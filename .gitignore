@@ -14,3 +14,5 @@ build
 # test/*.js
 test/**/*.js
 
+# vim
+.vim

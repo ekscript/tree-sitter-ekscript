@@ -17,7 +17,7 @@ npm i
 ## To generatate C parser files:
 
 ```sh
-npm run build # pnpm build
+npm run gen # pnpm build
 ```
 
 ## Development
@@ -33,6 +33,14 @@ npm run dev
 To create tests, create a `*.txt` file in test/corpus folder. Refer to
 [tree-sitter test](https://tree-sitter.github.io/tree-sitter/creating-parsers#command-test)
 to know how to write tests
+
+To test if the node-bindings are generated properly
+
+```sh
+npm run build
+node test/corpus/test_index.js
+```
+should give you an AST
 
 ### Highlighting tests
 

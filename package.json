@@ -4,9 +4,10 @@
   "description": "EkScript grammar for tree-sitter",
   "main": "index.js",
   "scripts": {
-    "build": "tree-sitter generate",
+    "gen": "tree-sitter generate",
     "test": "tree-sitter test",
-    "dev": "nodemon --watch grammar.js --watch corpus/**/*.txt -e js,txt --exec \"npm run build && npm run test\""
+    "dev": "nodemon --watch grammar.js --watch corpus/**/*.txt -e js,txt --exec \"npm run build && npm run test\"",
+    "build": "node-gyp configure && node-gyp build"
   },
   "repository": {
     "type": "git",
@@ -22,7 +23,8 @@
   "author": "Himujjal",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.14.2"
+    "nan": "^2.14.2",
+    "tree-sitter": "^0.17.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.7",
