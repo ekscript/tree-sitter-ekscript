@@ -4,8 +4,8 @@ Export statements
 
 #!/usr/bin/ekc r
 
-export { hello as default, yo } from 'hello';
-export * from 'yo';
+export { hello as default, yo } from "hello";
+export * from "yo";
 export as namespace yo;
 
 -------------------
@@ -30,9 +30,9 @@ export as namespace yo;
 Import statements
 =====================
 
-import type hello from './'
-import hello from './'
-import type hello, { yo as yoyo } from './thisis'
+import type hello from "./"
+import hello from "./"
+import type hello, { yo as yoyo } from "./thisis"
 
 --------------------
 
@@ -75,7 +75,9 @@ true, false, null;
 namespace ANamespace {}
 1.1e30;
 `hello ${1}`;
-'hello';
+"hello";
+'c';
+'';
 /[\/1-9]/;
 import;
 
@@ -96,11 +98,15 @@ import;
 
     (expression_statement (internal_module (identifier) (statement_block)))
 
-    (expression_statement (number))
+    (expression_statement (float_literal))
 
-    (expression_statement (template_string (template_substitution (number))))
+    (expression_statement (template_string (template_substitution (int_literal))))
 
     (expression_statement (string))
+
+    (expression_statement (char))
+
+    (expression_statement (char))
 
     (expression_statement (regex (regex_pattern)))
     
@@ -112,7 +118,7 @@ Expression Statements - II
 =========================
 
 { hello: 1, yo(a) {}, };
-[1, a, hello, ''];
+[1, a, hello, ""];
 async function func() {}
 await hello;
 async (a) => { 1; };
@@ -122,7 +128,7 @@ async (a) => { 1; };
 (program
     (expression_statement
         (object
-            (pair (property_identifier) (number))
+            (pair (property_identifier) (int_literal))
             (method_definition
                 (property_identifier)
                 (formal_parameters (required_parameter (identifier)))
@@ -133,7 +139,7 @@ async (a) => { 1; };
 
     (expression_statement
         (array
-            (number)
+            (int_literal)
             (identifier)
             (identifier)
             (string)
@@ -148,7 +154,7 @@ async (a) => { 1; };
 
     (expression_statement (arrow_function
         (formal_parameters (required_parameter (identifier)))
-        (statement_block (expression_statement (number)))
+        (statement_block (expression_statement (int_literal)))
     ))
 )
 
@@ -191,7 +197,7 @@ class name {
             (method_definition
                 (property_identifier)
                 (formal_parameters)
-                (statement_block (return_statement (number)))
+                (statement_block (return_statement (int_literal)))
             )
             (method_definition
                 (property_identifier)

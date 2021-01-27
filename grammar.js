@@ -13,7 +13,6 @@ const PREC = {
   AND: 3,
   REL: 4,
   PLUS: 5,
-  TIMES: 6,
   EXP: 7,
   TYPEOF: 8,
   DELETE: 8,
@@ -31,12 +30,10 @@ const PREC = {
   CONDITIONAL_TYPE: 2,
   INTERSECTION: 3,
   UNION: 3,
-  PLUS: 4,
   REL: 5,
   TIMES: 6,
   TYPEOF: 7,
   EXTENDS: 7,
-  NEG: 9,
   NON_NULL: 10,
   CALL: 11,
   NEW: 12,
@@ -52,6 +49,12 @@ const commaSep1 = (rule) => seq(rule, repeat(seq(",", rule)));
 const commaSep = (rule) => optional(commaSep1(rule));
 const sepBy = (sep, rule) => optional(sepBy1(sep, rule));
 const sepBy1 = (sep, rule) => seq(rule, repeat(seq(sep, rule)));
+
+const decimal_digits = /\d(_?\d)*/;
+const hex_literal = seq(choice("0x", "0X"), /[\da-fA-F](_?[\da-fA-F])*/);
+const binary_literal = seq(choice("0b", "0B"), /[0-1](_?[0-1])*/);
+const int_literal = seq(optional(choice("-", "+")), decimal_digits);
+const octal_literal = seq(choice("0o", "0O"), /[0-7](_?[0-7])*/);
 
 module.exports = grammar({
   name: "ekscript",
@@ -112,6 +115,7 @@ module.exports = grammar({
     [$._call_signature, $.function_type],
     [$._call_signature, $.constructor_type],
     [$._primary_type, $.type_parameter],
+    [$._number_lit, $._expression],
     [$._expression, $.literal_type],
     [$._expression, $._primary_type],
     [$._expression, $.generic_type],
@@ -538,7 +542,14 @@ module.exports = grammar({
         $.super,
         $.identifier,
         alias($._reserved_identifier, $.identifier),
-        $.number,
+        // alias($._number, $.number),
+        $.int_literal,
+        $.float_literal,
+        $.bigint_literal,
+        $.hex_literal,
+        $.octal_literal,
+        $.binary_literal,
+        $.char,
         $.string,
         $.template_string,
         $.regex,
@@ -1010,28 +1021,18 @@ module.exports = grammar({
       ),
 
     string: ($) =>
-      choice(
-        seq(
-          '"',
-          repeat(
-            choice(
-              token.immediate(prec(PREC.STRING, /[^"\\\n]+|\\\r?\n/)),
-              $.escape_sequence
-            )
-          ),
-          '"'
+      seq(
+        '"',
+        repeat(
+          choice(
+            token.immediate(prec(PREC.STRING, /[^"\\\n]+|\\\r?\n/)),
+            $.escape_sequence
+          )
         ),
-        seq(
-          "'",
-          repeat(
-            choice(
-              token.immediate(prec(PREC.STRING, /[^'\\\n]+|\\\r?\n/)),
-              $.escape_sequence
-            )
-          ),
-          "'"
-        )
+        '"'
       ),
+    char: ($) =>
+      seq("'", optional(token(prec(PREC.STRING, /[^'\\\n]|\\\r?\n/))), "'"),
 
     escape_sequence: () =>
       token.immediate(
@@ -1096,22 +1097,18 @@ module.exports = grammar({
 
     regex_flags: () => token.immediate(/[a-z]+/),
 
-    number: ($) => {
-      const hex_literal = seq(choice("0x", "0X"), /[\da-fA-F](_?[\da-fA-F])*/);
+    _number_lit: ($) =>
+      choice(
+        $.hex_literal,
+        $.float_literal,
+        $.int_literal,
+        $.binary_literal,
+        $.octal_literal,
+        $.bigint_literal
+      ),
 
-      const decimal_digits = /\d(_?\d)*/;
-      const signed_integer = seq(optional(choice("-", "+")), decimal_digits);
-      const exponent_part = seq(choice("e", "E"), signed_integer);
-
-      const binary_literal = seq(choice("0b", "0B"), /[0-1](_?[0-1])*/);
-
-      const octal_literal = seq(choice("0o", "0O"), /[0-7](_?[0-7])*/);
-
-      const bigint_literal = seq(
-        choice(hex_literal, binary_literal, octal_literal, decimal_digits),
-        "n"
-      );
-
+    float_literal: ($) => {
+      const exponent_part = seq(choice("e", "E"), int_literal);
       const decimal_integer_literal = choice(
         "0",
         seq(
@@ -1121,28 +1118,30 @@ module.exports = grammar({
         )
       );
 
-      const decimal_literal = choice(
-        seq(
-          decimal_integer_literal,
-          ".",
-          optional(decimal_digits),
-          optional(exponent_part)
-        ),
-        seq(".", decimal_digits, optional(exponent_part)),
-        seq(decimal_integer_literal, exponent_part),
-        seq(decimal_digits)
-      );
-
       return token(
         choice(
-          hex_literal,
-          decimal_literal,
-          binary_literal,
-          octal_literal,
-          bigint_literal
+          seq(
+            decimal_integer_literal,
+            ".",
+            optional(decimal_digits),
+            optional(exponent_part)
+          ),
+          seq(".", decimal_digits, optional(exponent_part)),
+          seq(decimal_integer_literal, exponent_part)
         )
       );
     },
+    hex_literal: ($) => token(hex_literal),
+    int_literal: ($) => token(int_literal),
+    binary_literal: ($) => token(binary_literal),
+    octal_literal: ($) => token(octal_literal),
+    bigint_literal: ($) =>
+      token(
+        seq(
+          choice(hex_literal, binary_literal, octal_literal, int_literal),
+          "n"
+        )
+      ),
 
     identifier: ($) => {
       const alpha = /[^\x00-\x1F\s0-9:;`"'@#.,|^&<=>+\-*/\\%?!~()\[\]{}\uFEFF\u2060\u200B\u00A0]|\\u[0-9a-fA-F]{4}|\\u\{[0-9a-fA-F]+\}/;
@@ -1253,7 +1252,10 @@ module.exports = grammar({
     _number: ($) =>
       prec.left(
         PREC.NEG,
-        seq(field("operator", choice("-", "+")), field("argument", $.number))
+        seq(
+          field("operator", choice("-", "+")),
+          field("argument", $._number_lit)
+        )
       ),
 
     optional_parameter: ($) =>
@@ -1304,7 +1306,7 @@ module.exports = grammar({
           $.property_identifier
         ),
         $.string,
-        $.number,
+        alias($._number_lit, $.number),
         $.computed_property_name
       ),
 
@@ -1320,8 +1322,6 @@ module.exports = grammar({
         "protected",
         $.readonly,
         "module",
-        "any",
-        "number",
         "boolean",
         "string",
         "symbol",
@@ -1393,7 +1393,7 @@ module.exports = grammar({
     parenthesized_type: ($) => seq("(", $._type, ")"),
 
     predefined_type: () =>
-      choice("number", "boolean", "string", "symbol", "void"),
+      choice("int", "float", "boolean", "string", "symbol", "void"),
 
     _type_identifier: ($) => alias($.identifier, $.type_identifier),
 
@@ -1562,7 +1562,12 @@ module.exports = grammar({
     literal_type: ($) =>
       choice(
         alias($._number, $.unary_expression),
-        $.number,
+        $.float_literal,
+        $.int_literal,
+        $.bigint_literal,
+        $.octal_literal,
+        $.hex_literal,
+        $.binary_literal,
         $.string,
         $.true,
         $.false
@@ -1620,5 +1625,3 @@ module.exports = grammar({
       ),
   },
 });
-
-// hello

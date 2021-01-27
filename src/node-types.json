@@ -104,11 +104,23 @@
         "named": true
       },
       {
+        "type": "bigint_literal",
+        "named": true
+      },
+      {
         "type": "binary_expression",
         "named": true
       },
       {
+        "type": "binary_literal",
+        "named": true
+      },
+      {
         "type": "call_expression",
+        "named": true
+      },
+      {
+        "type": "char",
         "named": true
       },
       {
@@ -120,6 +132,10 @@
         "named": true
       },
       {
+        "type": "float_literal",
+        "named": true
+      },
+      {
         "type": "function",
         "named": true
       },
@@ -128,11 +144,19 @@
         "named": true
       },
       {
+        "type": "hex_literal",
+        "named": true
+      },
+      {
         "type": "identifier",
         "named": true
       },
       {
         "type": "import",
+        "named": true
+      },
+      {
+        "type": "int_literal",
         "named": true
       },
       {
@@ -160,11 +184,11 @@
         "named": true
       },
       {
-        "type": "number",
+        "type": "object",
         "named": true
       },
       {
-        "type": "object",
+        "type": "octal_literal",
         "named": true
       },
       {
@@ -1255,6 +1279,11 @@
         ]
       }
     }
+  },
+  {
+    "type": "char",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "class",
@@ -3765,11 +3794,31 @@
       "required": true,
       "types": [
         {
+          "type": "bigint_literal",
+          "named": true
+        },
+        {
+          "type": "binary_literal",
+          "named": true
+        },
+        {
           "type": "false",
           "named": true
         },
         {
-          "type": "number",
+          "type": "float_literal",
+          "named": true
+        },
+        {
+          "type": "hex_literal",
+          "named": true
+        },
+        {
+          "type": "int_literal",
+          "named": true
+        },
+        {
+          "type": "octal_literal",
           "named": true
         },
         {
@@ -4310,7 +4359,19 @@
             "named": true
           },
           {
+            "type": "bigint_literal",
+            "named": true
+          },
+          {
+            "type": "binary_literal",
+            "named": true
+          },
+          {
             "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "char",
             "named": true
           },
           {
@@ -4322,6 +4383,10 @@
             "named": true
           },
           {
+            "type": "float_literal",
+            "named": true
+          },
+          {
             "type": "function",
             "named": true
           },
@@ -4330,11 +4395,19 @@
             "named": true
           },
           {
+            "type": "hex_literal",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           },
           {
             "type": "import",
+            "named": true
+          },
+          {
+            "type": "int_literal",
             "named": true
           },
           {
@@ -4350,11 +4423,11 @@
             "named": true
           },
           {
-            "type": "number",
+            "type": "object",
             "named": true
           },
           {
-            "type": "object",
+            "type": "octal_literal",
             "named": true
           },
           {
@@ -4413,6 +4486,41 @@
       "types": [
         {
           "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "number",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "bigint_literal",
+          "named": true
+        },
+        {
+          "type": "binary_literal",
+          "named": true
+        },
+        {
+          "type": "float_literal",
+          "named": true
+        },
+        {
+          "type": "hex_literal",
+          "named": true
+        },
+        {
+          "type": "int_literal",
+          "named": true
+        },
+        {
+          "type": "octal_literal",
           "named": true
         }
       ]
@@ -6538,10 +6646,6 @@
     "named": false
   },
   {
-    "type": "any",
-    "named": false
-  },
-  {
     "type": "as",
     "named": false
   },
@@ -6556,6 +6660,14 @@
   {
     "type": "await",
     "named": false
+  },
+  {
+    "type": "bigint_literal",
+    "named": true
+  },
+  {
+    "type": "binary_literal",
+    "named": true
   },
   {
     "type": "boolean",
@@ -6638,6 +6750,14 @@
     "named": false
   },
   {
+    "type": "float",
+    "named": false
+  },
+  {
+    "type": "float_literal",
+    "named": true
+  },
+  {
     "type": "for",
     "named": false
   },
@@ -6659,6 +6779,10 @@
   },
   {
     "type": "hash_bang_line",
+    "named": true
+  },
+  {
+    "type": "hex_literal",
     "named": true
   },
   {
@@ -6684,6 +6808,14 @@
   {
     "type": "instanceof",
     "named": false
+  },
+  {
+    "type": "int",
+    "named": false
+  },
+  {
+    "type": "int_literal",
+    "named": true
   },
   {
     "type": "interface",
@@ -6718,12 +6850,8 @@
     "named": true
   },
   {
-    "type": "number",
+    "type": "octal_literal",
     "named": true
-  },
-  {
-    "type": "number",
-    "named": false
   },
   {
     "type": "of",
