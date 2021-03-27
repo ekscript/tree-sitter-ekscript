@@ -957,14 +957,13 @@ module.exports = grammar({
           ["<", PREC.REL],
           ["<=", PREC.REL],
           ["==", PREC.REL],
-          ["===", PREC.REL],
           ["!=", PREC.REL],
-          ["!==", PREC.REL],
           [">=", PREC.REL],
           [">", PREC.REL],
           ["??", PREC.TERNARY],
           ["instanceof", PREC.REL],
           ["in", PREC.REL],
+          ["of", PREC.REL],
         ].map(([operator, precedence]) =>
           prec.left(
             precedence,

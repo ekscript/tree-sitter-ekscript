@@ -1041,10 +1041,6 @@
             "named": false
           },
           {
-            "type": "!==",
-            "named": false
-          },
-          {
             "type": "%",
             "named": false
           },
@@ -1093,10 +1089,6 @@
             "named": false
           },
           {
-            "type": "===",
-            "named": false
-          },
-          {
             "type": ">",
             "named": false
           },
@@ -1126,6 +1118,10 @@
           },
           {
             "type": "instanceof",
+            "named": false
+          },
+          {
+            "type": "of",
             "named": false
           },
           {
@@ -6422,10 +6418,6 @@
     "named": false
   },
   {
-    "type": "!==",
-    "named": false
-  },
-  {
     "type": "\"",
     "named": false
   },
@@ -6563,10 +6555,6 @@
   },
   {
     "type": "==",
-    "named": false
-  },
-  {
-    "type": "===",
     "named": false
   },
   {
